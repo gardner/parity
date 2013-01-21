@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+   width="300" height="145" initialize="initApp()">
+<mx:Script>
+<![CDATA[
+	   
+	   /* Disclaimer: Gardner does not know flash. Please fork and submit a pull 
+	   request if you have suggestions. 
+	   
+	   This flash shim uses Adobe's p2p API to create a distributed network and 
+	   replicate name entries based on a RSA web of trust. We make attempts
+	   to hide complexity from the user.
+	    */
+			   
+	import flash.external.*;
+
+   // This should be passed in as a param
+	private const SERVER:String = "rtmfp://p2p.rtmfp.net/";
+	// var paramObj:Object = LoaderInfo(this.root.loaderInfo).parameters.myVariable;
+	private const DEVKEY:String = "c05e9ae341c122fd19ba7f6b-f8fc9415753e";
+	private var nc:NetConnection;
+	
+	
+	private function netStatus(event:NetStatusEvent):void {
+		trace(event.info.code);
+ 
+		switch(event.info.code) {
+			case "NetConnection.Connect.Success":
+				setupGroup();
+				break;
+ 
+			case "NetGroup.Connect.Success":
+				connected = true;
+				break;
+ 
+			case "NetGroup.Posting.Notify":
+				receiveMessage(event.info.message);
+				break;
+		}
+	}
+	
+	private getKeyFingerprint():String {
+		// TODO
+		return "user"+Math.round(Math.random()*10000);
+	}
+
+	private function connect():void {
+		nc = new NetConnection();
+		nc.addEventListener(NetStatusEvent.NET_STATUS,netStatus);
+		nc.connect(SERVER+DEVKEY);
+	}
+
+	private function setupGroup():void {
+		var groupspec:GroupSpecifier = new GroupSpecifier("parity/dns");
+		groupspec.serverChannelEnabled = true;
+		groupspec.postingEnabled = true;
+ 
+		netGroup = new NetGroup(nc,groupspec.groupspecWithAuthorizations());
+		netGroup.addEventListener(NetStatusEvent.NET_STATUS,netStatus);
+ 
+ 
+		user = getKeyFingerprint();
+	}	
+	
+	public function initApp():void {
+		// If ExternalInterface is supported, export flexFunction()
+		// so it can be called by javascript.
+
+		if (ExternalInterface.available) {
+			ExternalInterface.addCallback("flexFunction", flexFunction);
+		} else {
+			labelText.text = "External inteface unavailable. Couldn't add callback!";
+		}
+		
+		connect();
+ 
+	}
+
+	/*	This function is called when an external javascript calls
+	 *	result = document[objectID].flexFunction(message).
+	 *	The text returned by this function can then be used by javascript.
+	 */
+	public function pnsQuery(message:String):String
+	{
+	  labelText.text = message;
+	  return "flexFunction received: " + message;
+	}
+
+	/*	Function to send a message from Flex to an external javascript function.
+	 *	sendToJavascript("text") will invoke the function fromFlex("text") in
+	 *	the parent page.
+	 */
+	public function pnsRespond(message:String):void
+	{
+		if (ExternalInterface.available) {
+			ExternalInterface.call("pnsEvent", message);
+			labelText.text = "Sent data: " + message;
+		} else {
+			labelText.text = "ExternalInterface was not available!";
+		}
+	}
+]]>
+</mx:Script>
+<mx:Panel id="pnlMain" x="10" y="10" width="280" height="125"
+layout="absolute" title="Flex/Javascript Interaction">
+	<mx:Button x="10" y="50" label="Send message to javascript" id="jsButton"
+	click="sentToJavascript('Hello from Flex!')"/>
+	<mx:Label x="10" y="15" id="labelText"/>
+</mx:Panel>
+</mx:Application>
