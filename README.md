@@ -6,8 +6,6 @@ parity
 * have your own TLD for free.
 * decentralized trust based on strong cryptography.
 
-rtmfp://p2p.rtmfp.net/c05e9ae341c122fd19ba7f6b-f8fc9415753e/
-
 random
 ------
 
