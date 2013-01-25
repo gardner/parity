@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
+    <head>
+        <title>parity name system - unit tests</title>         
+		<script language="JavaScript" type="text/javascript" src="https://raw.github.com/philc/shoulda.js/master/shoulda.js"></script>
+        <script language="JavaScript" type="text/javascript" src="https://raw.github.com/wwwtyro/cryptico/master/cryptico.min.js"></script>
+	</head>
+	<body>
+		<script language="text/javascript">
+		context("parity name system",
+		  setup(function() {
+		    pns = new Pns();
+		  }),
+		  
+		  should("generate new key pair", function() {
+		      assert.equal(1024, keyPair.getKeySize());
+		  }),
+			  
+		  should("loadKey"), function () {
+		  }),
+		  
+		  should("generateKey"), function () {
+		  }),
+		  
+		  should("saveKey"), function () {
+		  }),
+		  
+		  should("backupPrivateKey"), function () {
+		  }),
+		  
+		  should("addNames"), function () {
+		  }),
+
+		  should("signNames"), function () {
+		  }),
+
+		  should("connect"), function () {
+		  }),
+		  
+		  should("joinGroup"), function () {
+		  }),
+		  
+		  should("shareNames"), function () {
+		  }),
+		  		  
+		  should("getNamesFromFriend"), function () {
+		  })
+		);
+
+		Tests.run();
+		</script>
+	</body>
+</html>
