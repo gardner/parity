@@ -9,11 +9,16 @@ parity
 random
 ------
 
+if the key does not exist
+	create a new key
+	join the network
+	find friend based on public key
+
+	send data
+
+
 	user has no key pair
 		generate key pair
-		ask the user for an email
-		ask the user for a password (different than email password)
-		encrypt the private key with AES and mail it to them as backup
 	
 	user joins a named group
 	user requests data bundles for trusted keys	
