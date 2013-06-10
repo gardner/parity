@@ -6,6 +6,13 @@ parity
 * have your own TLD for free.
 * decentralized trust based on strong cryptography.
 
+* generate a key pair
+* send your friends your public key via facebook link
+* sign
+* send friends a link with your public key via facebook / email
+* a friend sends you their public key link
+* the l
+
 random
 ------
 
