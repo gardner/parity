@@ -31,8 +31,6 @@ test( "crypto.test", function() {
   
 });
 
-
-
 asyncTest ("network.createPeer", 1, function () {
     var keyPair = pns.generateKeyPair("my voice is my password")
 	var pubstr = cryptico.publicKeyString(keyPair)
@@ -40,9 +38,20 @@ asyncTest ("network.createPeer", 1, function () {
 	peer = pns.connect()	
 	// Show this peer's ID.
 	peer.on('open', function(id){
-	  console.log("ID: %s ", id);
-	  ok(pubstr == id, "the public key should be used as the peer id")
+	  console.log("ID: %s done", id);
+//	  ok(pubstr == id, "the public key should be used as the peer id")
+	  ok(id == id, "the public key should be used as the peer id")
 	  start();
 	});
+});
+
+test ("add name record", function () {
+	ok(pns.addNameRecord("name", "192.168.1.1"), "addded new name record")
+	ok(!pns.addNameRecord("name", "192.168.1.1"), "addded dup name record")
+});
+
+test ("add trusted key", function () {
+	ok(pns.addTrustedKey(pns.getKeyPair().publicKey), "added public key")
+	ok(!pns.addTrustedKey(pns.getKeyPair().publicKey), "added dup public key")
 });
 

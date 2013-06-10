@@ -11,7 +11,7 @@ function Pns(){
 	this.keyPair = null // $.jStorage.get("keypair", null)
 	this.keySize = 1024
 	this.peers = []
-	this.peer = null
+	this.nameRecords = null
 	this.trusted = []
 }		
 
@@ -58,8 +58,26 @@ Pns.prototype.verify = function(plaintext){
 	return this.keyPair.verifyHexSignatureForMessage(plaintext)
 }
 
-Pns.prototype.addTrusted = function(pubkey){
+/**
+ * @returns true when antry does not exist
+ **/
+Pns.prototype.addNameRecord = function(name, ipaddress){
+	if ($.inArray(pubkey, this.trusted) == -1) {
+	    this.trusted.push(pubkey)
+		return true
+	} else {
+		return false
+	}
+}
+
+/**
+ * @returns true when antry does not exist
+ **/
+Pns.prototype.addTrustedKey = function(pubkey){
 	if ($.inArray(pubkey, this.trusted) == -1) {
 	    this.trusted.push(pubkey);
-	}	
+		return true
+	} else {
+		return false
+	}
 }
