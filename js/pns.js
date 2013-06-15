@@ -1,11 +1,25 @@
 /**
- * Parity Name System.
+ * This file is part of Parity Name System.
+ *
+ * Parity Name System is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Parity Name System is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Parity Name System.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @auther Gardner <gardner@invulnerable.org>
  * @this {Pns}
  * @constructor
  * @version 0.0.1
  */
+
 function Pns(){
 	this.passPhrase = ""
 	this.keyPair = null // $.jStorage.get("keypair", null)
@@ -59,11 +73,11 @@ Pns.prototype.verify = function(plaintext){
 }
 
 /**
- * @returns true when antry does not exist
+ * @returns true when entry does not exist, false otherwise
  **/
-Pns.prototype.addNameRecord = function(name, ipaddress){
+Pns.prototype.addRecord = function(name, ipaddress){
 	if ($.inArray(pubkey, this.trusted) == -1) {
-	    this.trusted.push(pubkey)
+	    this.trusted.push([name, ipaddress])
 		return true
 	} else {
 		return false
@@ -73,9 +87,9 @@ Pns.prototype.addNameRecord = function(name, ipaddress){
 /**
  * @returns true when antry does not exist
  **/
-Pns.prototype.addTrustedKey = function(pubkey){
+Pns.prototype.addFriend = function(nickname, pubkey){
 	if ($.inArray(pubkey, this.trusted) == -1) {
-	    this.trusted.push(pubkey);
+	    this.trusted.push([nickname, pubkey]);
 		return true
 	} else {
 		return false
